@@ -1,21 +1,22 @@
 ﻿/*
  *  The ircd.net project is an IRC deamon implementation for the .NET Plattform
  *  It should run on both .NET and Mono
+ *  
+ * Copyright (c) 2009-2017, Thomas Bruderer, apophis@apophis.ch All rights reserved.
  * 
- *  Copyright (c) 2009-2010 Thomas Bruderer <apophis@apophis.ch>
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ *   
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * * Neither the name of ArithmeticParser nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  */
 
 using System.ComponentModel;
@@ -27,25 +28,25 @@ namespace IrcD.Server
     [RunInstaller(true)]
     public class IrcdServiceInstaller : Installer
     {
-        private readonly ServiceProcessInstaller processInstaller;
-        private readonly ServiceInstaller serviceInstaller;
+        private readonly ServiceProcessInstaller _processInstaller;
+        private readonly ServiceInstaller _serviceInstaller;
 
         public IrcdServiceInstaller()
         {
-            processInstaller = new ServiceProcessInstaller();
-            serviceInstaller = new ServiceInstaller();
+            _processInstaller = new ServiceProcessInstaller();
+            _serviceInstaller = new ServiceInstaller();
 
-            processInstaller.Account = ServiceAccount.LocalSystem;
-            processInstaller.Username = null;
-            processInstaller.Password = null;
+            _processInstaller.Account = ServiceAccount.LocalSystem;
+            _processInstaller.Username = null;
+            _processInstaller.Password = null;
 
             //# Service Information
-            serviceInstaller.DisplayName = ServiceEngine.IrcdServiceName;
-            serviceInstaller.StartType = ServiceStartMode.Automatic;
-            serviceInstaller.ServiceName = ServiceEngine.IrcdServiceName;
+            _serviceInstaller.DisplayName = ServiceEngine.IrcdServiceName;
+            _serviceInstaller.StartType = ServiceStartMode.Automatic;
+            _serviceInstaller.ServiceName = ServiceEngine.IrcdServiceName;
 
-            Installers.Add(processInstaller);
-            Installers.Add(serviceInstaller);
+            Installers.Add(_processInstaller);
+            Installers.Add(_serviceInstaller);
         }
     }
 }

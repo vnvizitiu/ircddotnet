@@ -1,36 +1,37 @@
 ﻿/*
  *  The ircd.net project is an IRC deamon implementation for the .NET Plattform
  *  It should run on both .NET and Mono
+ *  
+ * Copyright (c) 2009-2017, Thomas Bruderer, apophis@apophis.ch All rights reserved.
  * 
- *  Copyright (c) 2009-2010 Thomas Bruderer <apophis@apophis.ch>
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ *   
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * * Neither the name of ArithmeticParser nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  */
 
 using System;
 using System.Linq;
 using IrcD.Modes.UserModes;
 
-namespace IrcD
+namespace IrcD.Core
 {
     public class ServerStats
     {
-        readonly IrcDaemon ircDaemon;
+        readonly IrcDaemon _ircDaemon;
 
         public ServerStats(IrcDaemon ircDaemon)
         {
-            this.ircDaemon = ircDaemon;
+            _ircDaemon = ircDaemon;
         }
 
         public int ServerCount
@@ -45,23 +46,17 @@ namespace IrcD
         {
             get
             {
-                return ircDaemon.Sockets.Count(s => s.Value.IsService);
+                return _ircDaemon.Sockets.Count(s => s.Value.IsService);
             }
         }
 
-        public int UserCount
-        {
-            get
-            {
-                return ircDaemon.Nicks.Count - ServiceCount;
-            }
-        }
+        public int UserCount => _ircDaemon.Nicks.Count - ServiceCount;
 
         public int OperatorCount
         {
             get
             {
-                return ircDaemon.Sockets.Count(s => s.Value.Modes.Exist<ModeOperator>());
+                return _ircDaemon.Sockets.Count(s => s.Value.Modes.Exist<ModeOperator>());
             }
         }
 
@@ -69,7 +64,7 @@ namespace IrcD
         {
             get
             {
-                return ircDaemon.Sockets.Count(s => s.Value.Modes.Exist<ModeLocalOperator>());
+                return _ircDaemon.Sockets.Count(s => s.Value.Modes.Exist<ModeLocalOperator>());
             }
         }
 
@@ -77,33 +72,15 @@ namespace IrcD
         {
             get
             {
-                return ircDaemon.Sockets.Count(s => !s.Value.IsAcceptSocket);
+                return _ircDaemon.Sockets.Count(s => !s.Value.IsAcceptSocket);
             }
         }
 
 
-        public int ChannelCount
-        {
-            get
-            {
-                return ircDaemon.Channels.Count;
-            }
-        }
+        public int ChannelCount => _ircDaemon.Channels.Count;
 
-        public int ClientCount
-        {
-            get
-            {
-                return ircDaemon.Nicks.Count;
-            }
-        }
+        public int ClientCount => _ircDaemon.Nicks.Count;
 
-        public TimeSpan Uptime
-        {
-            get
-            {
-                return DateTime.Now - ircDaemon.ServerCreated;
-            }
-        }
+        public TimeSpan Uptime => DateTime.Now - _ircDaemon.ServerCreated;
     }
 }

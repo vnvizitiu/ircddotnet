@@ -1,46 +1,47 @@
 ﻿/*
  *  The ircd.net project is an IRC deamon implementation for the .NET Plattform
  *  It should run on both .NET and Mono
+ *  
+ * Copyright (c) 2009-2017, Thomas Bruderer, apophis@apophis.ch All rights reserved.
  * 
- *  Copyright (c) 2009-2010 Thomas Bruderer <apophis@apophis.ch>
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ *   
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * * Neither the name of ArithmeticParser nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  */
 
-using System.Diagnostics;
 using System;
+using System.Diagnostics;
 using System.Text;
 
-namespace IrcD.Utils
+namespace IrcD.Tools
 {
-    class Logger
+    public static class Logger
     {
         public static void Log(string message, int level = 4, string location = null)
         {
             var stackTrace = new StackTrace();
             var callerFrame = stackTrace.GetFrame(1);
 
-            Console.WriteLine(string.Format("{0} in {2}: {1}", level, message, location ?? FormatLocation(callerFrame)));
+            Console.WriteLine("{0} in {2}: {1}", level, message, location ?? FormatLocation(callerFrame));
         }
 
         public static string FormatLocation(StackFrame frame)
         {
             StringBuilder location = new StringBuilder();
 
-            location.Append(frame.GetMethod().DeclaringType.ToString());
+            location.Append(frame.GetMethod().DeclaringType);
             location.Append("=>");
-            location.Append(frame.GetMethod().ToString());
+            location.Append(frame.GetMethod());
             location.Append(" [");
             location.Append(frame.GetILOffset());
             location.Append(":");

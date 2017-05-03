@@ -19,21 +19,26 @@
  *   this software without specific prior written permission.
  */
 
-using IrcD.Channel;
+using System;
+using System.Collections.Generic;
+using IrcD.Commands.Arguments;
 using IrcD.Core;
 
-namespace IrcD.Commands.Arguments
+namespace IrcD.Commands
 {
-    public class KnockArgument : CommandArgument
+    public class Server : CommandBase
     {
-        public KnockArgument(UserInfo sender, InfoBase receiver, ChannelInfo channel, string message)
-            : base(sender, receiver, "KNOCK")
+        public Server(IrcDaemon ircDaemon)
+            : base(ircDaemon, "SERVER", "S")
+        { }
+
+        protected override void PrivateHandle(UserInfo info, List<string> args)
         {
-            Channel = channel;
-            Message = message;
         }
 
-        public ChannelInfo Channel { get; }
-        public string Message { get; }
+        protected override int PrivateSend(CommandArgument commandArgument)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
