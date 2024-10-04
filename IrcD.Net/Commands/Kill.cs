@@ -43,8 +43,7 @@ namespace IrcD.Commands
                 return;
             }
 
-            UserInfo killUser;
-            if (!IrcDaemon.Nicks.TryGetValue(args[0], out killUser))
+            if (!IrcDaemon.Nicks.TryGetValue(args[0], out UserInfo killUser))
             {
                 IrcDaemon.Replies.SendNoSuchNick(info, args[0]);
             }
@@ -60,8 +59,7 @@ namespace IrcD.Commands
             var arg = GetSaveArgument<KillArgument>(commandArgument);
 
             BuildMessageHeader(arg);
-            var user = arg.Receiver as UserInfo;
-            Command.Append((user != null) ? user.Nick : "nobody");
+            Command.Append((arg.Receiver is UserInfo user) ? user.Nick : "nobody");
             Command.Append(" :");
             Command.Append(arg.Message);
 

@@ -105,11 +105,9 @@ namespace IrcD.Modes
 
                 if (plus == null)
                 {
-                    var list = cmode as IParameterListA;
-                    if (list != null)
+                    if (cmode is IParameterListA list)
                     {
-                        ChannelMode channelMode;
-                        if (TryGetValue(cmode.Char, out channelMode))
+                        if (TryGetValue(cmode.Char, out ChannelMode channelMode))
                         {
                             ((IParameterListA)channelMode).SendList(info, chan);
                         }
@@ -124,9 +122,8 @@ namespace IrcD.Modes
                     plus = true;
                 }
 
-                var iParam = cmode as IParameter;
 
-                if (iParam != null)
+                if (cmode is IParameter iParam)
                 {
                     var parameter = parameterTail.FirstOrDefault();
                     if (parameter != null)
@@ -152,8 +149,7 @@ namespace IrcD.Modes
                         {
                             if (ContainsKey(cmode.Char))
                             {
-                                var paramA = this[cmode.Char] as IParameterListA;
-                                if (paramA == null)
+                                if (this[cmode.Char] is not IParameterListA paramA)
                                 {
                                     Remove(cmode.Char);
                                     if (lastprefix != '-')
@@ -215,9 +211,8 @@ namespace IrcD.Modes
                     var parameter = parameterTail.FirstOrDefault();
                     if (parameter != null)
                     {
-                        UserPerChannelInfo upci;
                         parameterTail = parameterTail.Skip(1);
-                        if (chan.UserPerChannelInfos.TryGetValue(parameter, out upci))
+                        if (chan.UserPerChannelInfos.TryGetValue(parameter, out UserPerChannelInfo upci))
                         {
                             if (plus.Value)
                             {
@@ -306,14 +301,12 @@ namespace IrcD.Modes
             foreach (var mode in Values.Where(m => !(m is IParameterListA)).OrderBy(c => c.Char))
             {
                 modes.Append(mode.Char);
-                var b = mode as IParameterB;
-                if (b != null)
+                if (mode is IParameterB b)
                 {
                     parameters.Append(" ");
                     parameters.Append(b.Parameter);
                 }
-                var c = mode as IParameterC;
-                if (c != null)
+                if (mode is IParameterC c)
                 {
                     parameters.Append(" ");
                     parameters.Append(c.Parameter);
